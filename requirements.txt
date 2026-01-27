@@ -1,0 +1,9 @@
+streamlit
+numpy
+rasterio
+matplotlib
+plotly
+folium
+streamlit-folium
+qrcode
+pillow
