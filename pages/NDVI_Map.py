@@ -69,6 +69,7 @@
 # # --------------------------------------------------
 # # TRANSFORM BOUNDS TO LAT/LON
 # # --------------------------------------------------
+
 # geo_bounds = transform_bounds(crs, "EPSG:4326", *bounds)
 
 # # Folium expects [[min_lat, min_lon], [max_lat, max_lon]]
@@ -263,7 +264,29 @@ png_path = create_png(ndvi_stack[0])
 # --------------------------------------------------
 # TRANSFORM BOUNDS TO LAT/LON
 # --------------------------------------------------
-geo_bounds = transform_bounds(crs, "EPSG:4326", *bounds)
+from rasterio.warp import transform_bounds
+from rasterio.crs import CRS
+
+with rasterio.open(tif_path) as src:
+    bounds = src.bounds
+    src_crs = src.crs
+
+if src_crs is None:
+    st.error("❌ Raster has no CRS defined")
+    st.stop()
+
+dst_crs = CRS.from_epsg(4326)
+
+geo_bounds = transform_bounds(
+    src_crs,
+    dst_crs,
+    bounds.left,
+    bounds.bottom,
+    bounds.right,
+    bounds.top,
+    densify_pts=21
+)
+
 
 image_bounds = [
     [geo_bounds[1], geo_bounds[0]],
@@ -342,3 +365,4 @@ if map_data and map_data.get("last_clicked"):
         st.warning("Clicked outside image extent")
 else:
     st.info("Click anywhere on the NDVI image")
+
