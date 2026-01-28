@@ -153,6 +153,7 @@ import rasterio
 import numpy as np
 import plotly.graph_objects as go
 from streamlit_plotly_events import plotly_events
+from streamlit_plotly_events import plotly_events
 import requests
 
 # --------------------------------------------------
