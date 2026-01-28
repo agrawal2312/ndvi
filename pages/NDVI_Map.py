@@ -267,7 +267,7 @@ png_path = create_png(ndvi_stack[0])
 from rasterio.warp import transform_bounds
 from rasterio.crs import CRS
 
-with rasterio.open(tif_path) as src:
+with rasterio.open(path) as src:
     bounds = src.bounds
     src_crs = src.crs
 
@@ -365,4 +365,5 @@ if map_data and map_data.get("last_clicked"):
         st.warning("Clicked outside image extent")
 else:
     st.info("Click anywhere on the NDVI image")
+
 
